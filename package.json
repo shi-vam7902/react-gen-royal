@@ -7,5 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shivam SHah",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "auth": "0.0.9",
+    "express": "^4.18.2",
+    "install": "^0.13.0",
+    "mongoose": "^6.8.4",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
+    "xlsx": "^0.18.5",
+    "xod": "^1.11.3",
+    "zod": "^3.20.2"
+  }
 }
