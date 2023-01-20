@@ -1,0 +1,11 @@
+{
+  "name": "node_learning",
+  "version": "1.0.0",
+  "description": "node js learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shivam SHah",
+  "license": "ISC"
+}
