@@ -1,3 +1,5 @@
+const RoleSchema = require("../model/RoleSchema");
+
 const Auth = () => async (req, res, next) => {
   try {
     if (!req.headers.role) {
@@ -8,11 +10,26 @@ const Auth = () => async (req, res, next) => {
       console.log(req.headers.role);
       const role = req.headers.role;
       
-      if (role === "ADMIN" || role === "admin" ) {
-        return next();
-      } else {
-        throw new Error("NO ACCESS");
-      }
+      RoleSchema.findById(role,(err,data)=>{
+        if(err)
+        {
+          throw new Error("Something went wrong")
+        }
+        else
+        {
+          if(data){
+            return next()
+          }
+          else{
+            throw new Error("Role in not Found")
+          }
+        }
+      })
+      // if (role === "ADMIN" || role === "admin" ) {
+      //   return next();
+      // } else {
+      //   throw new Error("NO ACCESS");
+      // }
     }
   } catch (err) {
     return res.status(401).json({
