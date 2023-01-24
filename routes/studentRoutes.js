@@ -1,5 +1,5 @@
 const express  = require("express")
-const StudentController = require("../controller/StudentController");
+const StudentController = require("../controller/StudentsController");
 const StudentValidationUtil = require("../util/StudentSchemavalidationUtil");
 const validate = require('../middleware/ZodMiddleWare')
 

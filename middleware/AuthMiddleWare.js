@@ -7,8 +7,8 @@ const Auth = () => async (req, res, next) => {
       // console.log(".",req.body);
       console.log(req.headers.role);
       const role = req.headers.role;
-
-      if (role === "ADMIN" || role === "admin" || role === "user") {
+      
+      if (role === "ADMIN" || role === "admin" ) {
         return next();
       } else {
         throw new Error("NO ACCESS");

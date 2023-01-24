@@ -33,6 +33,10 @@ app.use("/song",songRoutes)
 const listRoutes = require("./routes/PlayListRoutes")
 app.use("/playlist",listRoutes)
 
+const role = require("./routes/RoleRoutes")
+app.use("/roles",role)
+
+
 app.listen(PORT, () => {
     console.log("Server Started on 9090");
 })
