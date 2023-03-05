@@ -1,7 +1,9 @@
 const multer = require("multer");
 const path = require("path");
+
 const uploadSchema = require("../model/UploadModel");
-const readFromExcel = require("../util/ReadDataFromExcel")
+// const readFromExcel = require("../util/ReadDataFromExcel");
+const googleController = require("./GoogleController");
 //where to store the path of file
 // this is the storage where the uploaded file is stored
 const storage = multer.diskStorage({
@@ -14,7 +16,8 @@ const storage = multer.diskStorage({
 // uploads
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 900000 }
+  
+  limits: { fileSize: 900000 },
   // fileFilter: function (req, file, cb1) {
   //   // if (file.mimetype == "image/jpeg" || file.mimetype == "image/jpeg") {
   // cb1(null, true);
@@ -24,10 +27,11 @@ const upload = multer({
   //   // }
   // },
 }).single("file");
-exports.getFilePath
-exports.mydata = []
+exports.getFilePath;
+exports.mydata = [];
 exports.uploadFile = (req, res) => {
   upload(req, res, (err, data) => {
+    var size = req.file.size;
     if (err) {
       console.log(err);
       res.status(500).json({
@@ -38,40 +42,36 @@ exports.uploadFile = (req, res) => {
       if (req.file == undefined) {
         res.status(400).json({
           message: "No File Selected",
-          data:data
+          data: data,
         });
       } else {
-        // console.log(req.file.mimetype);
-        // console.log(req.file.size);
-
-        // res.status(200).json({
-        //   message: "File Uploaded Succesfully",
-        //   file: `uploads/${req.file.originalname}`,
-        // });
-        
-        var data = readFromExcel.readData(req.file.path)
-        console.log("Data=>",data);
-        this.mydata = [data]
-        let abspath = path.resolve("../uploads", req.file.originalname);
-        console.log("abspath", abspath);
-        const upload1 = new uploadSchema({
-          name: req.file.originalname,
-          path: `uploads/${req.file.originalname}`,
-          size: req.file.size,
-          type: req.file.mimetype,
-        });
-        upload1.save((err, data) => {
-          if (err) {
-            res.status(400).json({
-              message: "error in saving file",
-            });
-          } else {
+        console.log(req.file.mimetype);
+        console.log(req.file.size);
+        if (size > 5000000) {
+          return res.status(402).json({
+            error: "file Size Is to large",
+          });
+        } else {
+          var x = googleController.uploadFile(req.file.path);
+          if (!x == undefined || !x == null) {
             res.status(200).json({
-              message: "Data uploaded SuccesFully",
-              file: `uploads/${req.file.originalname}`,
+              message: "File Upload done",
+              file: x,
             });
           }
-        });
+        }
+        // uploadSchema.save((err, data) => {
+        //   if (err) {
+        //     res.status(400).json({
+        //       message: "error in saving file",
+        //     });
+        //   } else {
+        //     res.status(200).json({
+        //       message: "Data uploaded SuccesFully",
+        //       file: `uploads/${req.file.originalname}`,
+        //     });
+        //   }
+        // });
       }
     }
   });

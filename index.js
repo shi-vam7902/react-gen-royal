@@ -37,6 +37,10 @@ const role = require("./routes/RoleRoutes")
 app.use("/roles",role)
 
 
+const signup = require("./routes/SignupRoutes")
+app.use("/sign",signup)
+
+
 app.listen(PORT, () => {
     console.log("Server Started on 9090");
 })
